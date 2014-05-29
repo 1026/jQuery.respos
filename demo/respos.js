@@ -1,33 +1,44 @@
 /* jQuery.respos(git@github.com:1026/jQuery.respos.git)
-   version: 0.0.0
+   version: 1.0.0
    author: 1026
    License: MIT */
 ;(function($) {
-	$.fn.respos = function(e) {
+	$.fn.respos = function(wrap, options) {
+
+		options = $.extend({
+			width: null,
+			height: null
+		}, options);
+
 		$(window).on('load resize',function(){
 			resposition();
 		});
 
-		var _item = $(e);
-		var criterion = this;
+		var $item = this;
+		var $criterion = $(wrap);
 
 		function resposition(){
-			var _criterionH = criterion.attr('height');
-			var _criterionW = criterion.attr('width');
-			var newH = criterion.height();
-			var newW = criterion.width();
+			var _criterionW = $criterion.attr('width');
+			var _criterionH = $criterion.attr('height');
 
-			_item.removeAttr('style');
+			var criterionW = (isFinite(_criterionW)) ? $criterion.attr('width') : options.width;
+			var criterionH = (isFinite(_criterionH)) ? $criterion.attr('height') : options.height;
 
-			_item.each(function(){
-				var _itemImgH = $(this).find('img').attr('height');
+			var newW = $criterion.outerWidth();
+			var newH = $criterion.outerHeight();
+
+			$item.each(function(){
+				$(this).removeAttr('style');
+
+				var _itemH = $(this).height();
+				var _itemW = $(this).width();
 				var _itemL = parseInt($(this).css('left'));
 				var _itemT = parseInt($(this).css('top'));
 
-				$(this).find('img').height(newH*_itemImgH/_criterionH).width('auto');
+				$(this).height(newH*_itemH/criterionH).width(newW*_itemW/criterionW);
 				$(this).css({
-					left: Math.round(_itemL/_criterionW*newW),
-					top: Math.round(_itemT/_criterionH*newH)
+					left: Math.round(_itemL/criterionW*newW),
+					top: Math.round(_itemT/criterionH*newH)
 				});
 			});
 		}
