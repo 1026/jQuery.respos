@@ -9,7 +9,7 @@
 ##Usage
     $('.item').respos('.hoge', {width: xxx, height: xxx});`
 
-.item：position: absoute; で配置する要素
+.item：position: absoute; で配置する要素  
 .hoge：基準になる要素。画像じゃない場合、optionでwidthとheight指定
 
 ##License
